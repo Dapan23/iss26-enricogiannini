@@ -3,6 +3,12 @@ Laboratorio di **Ingegneria dei Sistemi Software** a.a. 2025/2026 di Enrico Gian
 
 [Testo di riferimento:](https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf)
 
+--- 
+
+## Work [Index](https://dapan23.github.io/iss26-enricogiannini/index.html)
+
+---
+
 ## Parte A: Dai programmi ai Sistemi a Microservizi
 
 ### Sistema ConwayLife in locale
