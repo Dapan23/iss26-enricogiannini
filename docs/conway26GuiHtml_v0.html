@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+
+    
+<title>conway26GuiHtml_v0</title>
+</head>
+
+<body>
+<div id="top">
+<h1>ConwayLife Sprint3</h1>
+</div>  
+
+<div class="body">  
+
+<h2>Introduction</h2>
+<div class="remark">
+Realizzazione in Java del
+<a href='https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#chapter.6'>GAME OF LIFE DI CONWAY</a>: Evoluzone del sistema locale utilizzando una GUI basata su web.
+</div>
+
+<h2>Requirements</h2>
+<div class="remark">
+<ul>
+    <li>
+        <b>R1:</b> Realizzare una versione in Java del gioco Life di Conway, come gioco zero-player.<br/>
+    Il gioco consiste nell'introdurre una Griglia di Celle il cui stato (cella 'viva' o cella 'morta') 
+    evolve come stabilito dallle regole di ConwayLife <br/></li>
+    <li>
+        <b>R2:</b> L'utente umano deve poter:
+        <ul>
+        <li>specificare la configurazione iniziale della griglia del gioco</li>
+        <li>vedere l'evoluzione del gioco in forma opportuna 
+        (si veda <a href='https://anatali.github.io/issLab2026/_static/docs/Protobook.pdf#section.6.3'>Problema della vista del gioco</a> )</li>
+        <li>fermare e far ripartire l'evoluzione del gioco</li>
+        <li>pulire (a gioco fermo) la configurazione della griglia del gioco</li>
+        </ul>
+    </li>
+    <li>
+        <b>R3:</b> Utilizzare una pagina HTML come dispositivo di I/O per il gioco.
+    </li>
+    <li>
+        <b>R4:</b> La pagina deve costituire un componente esterno alla applicazione Java, si devono poter aprire più pagine HTML per lo stesso gioco, le quali devono essere costantemente aggiornate dal server.
+    </li>
+    <li>
+        <b>R5:</b> l'utente che ha aperto per primo il gioco sarà l'owner, solo la pagina dell'owner avrà pulsanti di comando START/STOP/CLEAN/EXIT attivi.
+    </li>
+    <li>
+        <b>R6:</b> La pagina HTML deve essere aggiornata automaticamente man mano il gioco procede.
+    </li>
+    <li>
+        <b>R7:</b> Un utente non owner che si collega mentre il gioco è in corso, deve vedere lo stato attuale della griglia in modo corretto.
+    </li>
+    <li>
+        <b>R8:</b> Opzionalmente: la pagina HTML deve indicare se il gioco continua anche nel caso di griglia vuota o di configurazione stabile (gioco fermo).
+    </li>
+    <li>
+        <b>R9:</b> Il deployment del gioco avviene mediante Docker.
+    </li>
+</ul>
+</div>
+
+<h2>Requirement analysis</h2>
+<div class="remark">
+
+Il dominio principale consiste in:
+<ul>
+    <li><b>Cella</b>: Un'entita che puo essere viva o morta.</li>
+    <li><b>Griglia</b>: Una struttura 2D che contiene le celle e ne gestisce lo stato.</li>
+    <li><b>Regole</b>: La logica che determina lo stato di una cella nella generazione successiva in base ai suoi vicini.</li>
+</ul>
+
+L'interazione richiede:
+<ul>
+    <li><b>Input</b>: Comandi dall'utente (start, stop, clear, cambio stato cella).</li>
+    <li><b>Output</b>: Visione dello stato della griglia.</li>
+</ul>
+
+Poiche la GUI è basata su web, il sistema deve gestire la comunicazione remota tra il motore di gioco (Java) e il client (HTML/JS).
+
+</div>
+
+<h2>Problem analysis</h2>
+<div class="remark">
+
+Utilizziamo l'astrazione <code>IOutDev</code> per rappresentare un dispositivo di output.
+
+Poiche la GUI è in un browser, abbiamo bisogno di un server che serva file statici e permetta di ricevere aggiornamenti in tempo reale tramite WebSockets (evitando il polling).
+
+Il componente server (Javalin) deve agire da ponte tecnologico, il <code>LifeController</code> gestisce tutta logica applicativa.
+
+<img src="img/sprint3-problemAnalysis.png" alt="analysis" width="100%" height="40%">
+</div>
+
+<h2>Test plans</h2>
+<div class="remark">
+L'utente verifichi che:
+<ul>
+    <li>I comandi inviati dal browser attivino correttamente le azioni nel <code>LifeController</code>.</li>
+    <li>Gli aggiornamenti della griglia nel dominio siano correttamente propagati al client web tramite <code>IOutDev</code>.</li>
+</ul>
+</div>
+
+<h2>Project</h2> 
+<div class="remark">
+L'implementazione si basa su:
+<ul>
+    <li><b>Javalin</b>: Un framework web leggero per Java.</li>
+    <li><b>WebSockets</b>: Utilizzati per la comunicazione full-duplex tra il server e il browser.</li>
+    <li><b>Docker</b>: Il sistema è containerizzato per facilitare il deployment.</li>
+</ul>
+
+Il punto di ingresso del sistema e <code>MainConwayGui</code>, che inizializza la logica di dominio e il ponte server.
+</div>
+
+<h2>Testing</h2> 
+<div class="remark">
+Viene utilizzato JUnit.
+Si ha la possibilità di automatizzare i test con gradle.
+</div>
+
+<h2>Deployment</h2> 
+<div class="remark">
+La build del progetto avviene tramite gradle.
+
+Il deployment del sistema avviene tramite Docker:
+
+docker build -t conway-sprint3 .
+docker compose up -d
+
+</div>
+
+<h2>Maintenance</h2> 
+
+
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+
+<br/><br/> 	
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:60%;text-align:left;color:white">
+By Enrico Giannini 0001245486 email: enrico.giannini6@studio.unibo.it, 
+<!-- <img src="./img/mbot-S.jpg" alt="mbot" width="15%" height="15%"> -->
+<img src="img/emiglio.png" alt="emiglio" width="8%" height="8%">
+<a href="https://github.com/Dapan23/iss26-enricogiannini">GitHub: https://github.com/Dapan23/iss26-enricogiannini</a>
+
+</div> 
+</body>
+</html>
