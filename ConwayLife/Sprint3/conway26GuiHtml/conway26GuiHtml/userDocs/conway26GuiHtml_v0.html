@@ -63,7 +63,7 @@ Realizzazione in Java del
 
 <h2>Requirement analysis</h2>
 <div class="remark">
-
+Come definito nello sprint 1: <br/>
 Il dominio principale consiste in:
 <ul>
     <li><b>Cella</b>: Un'entita che puo essere viva o morta.</li>
@@ -116,19 +116,16 @@ Il punto di ingresso del sistema e <code>MainConwayGui</code>, che inizializza l
 
 <h2>Testing</h2> 
 <div class="remark">
-Viene utilizzato JUnit.
-Si ha la possibilità di automatizzare i test con gradle.
 </div>
 
 <h2>Deployment</h2> 
 <div class="remark">
 La build del progetto avviene tramite gradle.
 
-Il deployment del sistema avviene tramite Docker:
+Il deployment del sistema avviene tramite Docker:<br/>
 
-docker build -t conway-sprint3 .
-docker compose up -d
-
+Dockerfile: <a href="../ConwayLife/Sprint3/conway26GuiHtml/conway26GuiHtml/Dockerfile">Dockerfile</a><br/>
+yaml: <a href="../ConwayLife/Sprint3/conway26GuiHtml/conway26GuiHtml/conway26GuiHtml.yaml">conway26GuiHtml.yaml</a>
 </div>
 
 <h2>Maintenance</h2> 
